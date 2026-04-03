@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackSync - All-in-One 공모전 운영 플랫폼</title>
+    <!-- 폰트 적용 (Pretendard & Outfit) -->
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <!-- 배경 글로우 이펙트 -->
+    <div class="bg-glow pattern"></div>
+    <div class="bg-glow circle1"></div>
+    <div class="bg-glow circle2"></div>
+
+    <!-- 네비게이션 -->
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <div class="logo">HackSync<span class="dot">.</span></div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-item active">소개</a></li>
+                <li><a href="#features" class="nav-item">기능</a></li>
+                <li><a href="#dashboard" class="nav-item">대시보드 (주최자)</a></li>
+                <li><a href="#team" class="nav-item">팀빌딩 (참가자)</a></li>
+            </ul>
+            <button class="btn-primary" onclick="location.hash='#dashboard'">무료로 시작하기</button>
+        </div>
+    </nav>
+
+    <main id="app-content">
+        
+        <!-- 1. 랜딩 페이지 -->
+        <section id="home" class="page-section active">
+            <div class="hero wrapper">
+                <div class="hero-content">
+                    <div class="badge fade-in-up">🚀 운영 리소스 70% 절감 솔루션</div>
+                    <h1 class="hero-title fade-in-up" style="animation-delay: 0.1s;">파편화된 대회 운영을<br><span class="gradient-text">하나의 코어로 동기화하다</span></h1>
+                    <p class="hero-subtitle fade-in-up" style="animation-delay: 0.2s;">구글 폼, 엑셀, 노션, 카카오톡은 이제 그만.<br>HackSync는 주최자와 참가자를 잇는 단 하나의 B2B 완성형 공모전 플랫폼입니다.</p>
+                    <div class="hero-cta fade-in-up" style="animation-delay: 0.3s;">
+                        <a href="#dashboard" class="btn-primary large">관리자 뷰 체험하기 <i data-lucide="arrow-right"></i></a>
+                        <a href="#team" class="btn-secondary large">참가자 뷰 체험하기</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="features" class="features-section wrapper">
+                <h2 class="section-title fade-in-up">성공적인 해커톤을 위한 4대 특화 기능</h2>
+                <div class="features-grid">
+                    <div class="feature-card glass hover-lift">
+                        <div class="icon-wrapper bg-blue"><i data-lucide="layout-dashboard"></i></div>
+                        <h3>동적 대회 생성</h3>
+                        <p>코딩 없이 드래그 앤 드롭으로 모집 폼을 만들고, 전용 랜딩 페이지를 1분만에 배포하세요.</p>
+                    </div>
+                    <div class="feature-card glass hover-lift">
+                        <div class="icon-wrapper bg-purple"><i data-lucide="users"></i></div>
+                        <h3>스마트 팀 빌딩</h3>
+                        <p>참가자의 스킬셋 태그를 기반으로 자체 매칭 시스템을 제공하여 팀 구성 이탈을 줄입니다.</p>
+                    </div>
+                    <div class="feature-card glass hover-lift">
+                        <div class="icon-wrapper bg-pink"><i data-lucide="activity"></i></div>
+                        <h3>실시간 채점 및 랭킹</h3>
+                        <p>모바일 기기로 현장 채점을 진행하면 대시보드에서 점수와 랭킹이 즉시 자동 합산됩니다.</p>
+                    </div>
+                    <div class="feature-card glass hover-lift">
+                        <div class="icon-wrapper bg-green"><i data-lucide="send"></i></div>
+                        <h3>자동화 CRM</h3>
+                        <p>합격/불합격, 서류 제출 마감 공지 등을 타겟 그룹에게 알림톡과 이메일로 원클릭 발송합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 대시보드 (주최자) -->
+        <section id="dashboard" class="page-section">
+            <div class="dashboard-layout">
+                <aside class="sidebar glass">
+                    <div class="sidebar-header">
+                        <span>Admin Panel</span>
+                    </div>
+                    <ul class="side-menu">
+                        <li class="active"><i data-lucide="pie-chart"></i> 통합 대시보드</li>
+                        <li><i data-lucide="edit"></i> 대회 폼 편집기</li>
+                        <li><i data-lucide="users"></i> 전체 지원자 [428]</li>
+                        <li><i data-lucide="star"></i> 심사 결과 집계</li>
+                        <li><i data-lucide="mail"></i> 결과 통보(CRM)</li>
+                    </ul>
+                </aside>
+                <div class="dashboard-content">
+                    <div class="dash-header flex-between mb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold">2025 글로벌 AI 해커톤</h2>
+                            <p class="text-gray mt-1">접수 진행 중 (D-15)</p>
+                        </div>
+                        <button class="btn-primary flex-center gap-2"><i data-lucide="download"></i> 리포트 엑셀 다운로드</button>
+                    </div>
+                    
+                    <div class="kpi-grid mb-6">
+                        <div class="kpi-card glass">
+                            <span class="kpi-label">총 지원자 현황</span>
+                            <div class="flex-between items-end">
+                                <span class="kpi-value text-gradient">428<small>명</small></span>
+                                <span class="kpi-trend positive"><i data-lucide="trending-up" size="16"></i> 12%</span>
+                            </div>
+                        </div>
+                        <div class="kpi-card glass">
+                            <span class="kpi-label">팀 빌딩 완료 파티</span>
+                            <div class="flex-between items-end">
+                                <span class="kpi-value">84<small>%</small></span>
+                                <span class="text-gray text-sm">62팀</span>
+                            </div>
+                            <div class="progress-bar mt-3"><div class="fill bg-gradient" style="width: 84%"></div></div>
+                        </div>
+                        <div class="kpi-card glass">
+                            <span class="kpi-label">최종 산출물 제출율</span>
+                            <div class="flex-between items-end">
+                                <span class="kpi-value">62<small>%</small></span>
+                                <span class="text-gray text-sm">진행중</span>
+                            </div>
+                            <div class="progress-bar mt-3"><div class="fill bg-purple" style="width: 62%"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="chart-container glass">
+                            <h3 class="mb-4">직무별 지원자 분포</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="roleChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="recent-activity glass">
+                            <h3 class="mb-4">최근 액티비티</h3>
+                            <ul class="activity-list">
+                                <li>
+                                    <div class="dot bg-gradient"></div>
+                                    <div class="activity-info">
+                                        <p class="summary"><strong>김토스</strong>님이 <strong>Frontend 개발자</strong>로 지원했습니다.</p>
+                                        <span class="time">방금 전</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dot bg-purple"></div>
+                                    <div class="activity-info">
+                                        <p class="summary"><strong>AI 헬스케어 팀</strong>이 팀 빌딩을 완료했습니다.</p>
+                                        <span class="time">15분 전</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dot bg-pink"></div>
+                                    <div class="activity-info">
+                                        <p class="summary"><strong>박카카오</strong>님이 Github 포트폴리오를 업데이트했습니다.</p>
+                                        <span class="time">1시간 전</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 팀빌딩 (참가자) -->
+        <section id="team" class="page-section">
+            <div class="team-layout wrapper pt-20">
+                <div class="team-header mb-10 text-center">
+                    <div class="badge inline-block mb-3">Unified Profile Card API</div>
+                    <h2 class="text-4xl font-bold mb-4">함께할 크루 찾기</h2>
+                    <p class="text-gray text-lg max-w-2xl mx-auto">더 이상 에브리타임, 오픈카톡에서 헤매지 마세요. 검증된 스킬셋과 Github/Notion 포트폴리오를 통해 최고의 팀원을 영입하세요.</p>
+                    
+                    <div class="filter-bar mt-8 flex-center flex-wrap gap-3">
+                        <button class="filter-btn active" data-filter="all">전체보기</button>
+                        <button class="filter-btn" data-filter="Frontend">Frontend</button>
+                        <button class="filter-btn" data-filter="Backend">Backend</button>
+                        <button class="filter-btn" data-filter="AI">AI/Data</button>
+                        <button class="filter-btn" data-filter="Design">Design</button>
+                    </div>
+                </div>
+                
+                <div class="team-grid" id="participant-grid">
+                    <!-- Javascript DOM Injection -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
