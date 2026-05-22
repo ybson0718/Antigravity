@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackSync - All-in-One 공모전 운영 플랫폼</title>
+    <meta name="description" content="HackSync는 대회 주최자와 참가자를 잇는 All-in-One 공모전·해커톤 운영 플랫폼입니다. 운영 리소스 70% 절감.">
     <!-- 폰트 적용 (Pretendard & Outfit) -->
     <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -21,20 +22,34 @@
     <nav class="navbar glass">
         <div class="nav-container">
             <div class="logo">HackSync<span class="dot">.</span></div>
-            <ul class="nav-links">
-                <li><a href="#home" class="nav-item active">소개</a></li>
-                <li><a href="#features" class="nav-item">기능</a></li>
-                <li><a href="#dashboard" class="nav-item">대시보드 (주최자)</a></li>
-                <li><a href="#team" class="nav-item">팀빌딩 (참가자)</a></li>
+            <ul class="nav-links" id="main-nav-links">
+                <!-- guest-only: 비로그인 시에만 보이거나 모두 보이거나 -->
+                <li class="guest-nav"><a href="#home" class="nav-item active">소개</a></li>
+                <li class="guest-nav"><a href="#features" class="nav-item">기능</a></li>
+                <!-- auth-nav: 역할별로 다르게 표시 -->
+                <li class="auth-nav role-admin" style="display:none;"><a href="#dashboard" class="nav-item">대시보드 (주최자)</a></li>
+                <li class="auth-nav role-judge" style="display:none;"><a href="#judge" class="nav-item">대시보드 (심사위원)</a></li>
+                <li class="auth-nav role-participant" style="display:none;"><a href="#team" class="nav-item">팀빌딩 (참가자)</a></li>
             </ul>
-            <button class="btn-primary" onclick="location.hash='#dashboard'">무료로 시작하기</button>
+            <div class="nav-actions">
+                <!-- 비로그인 시 -->
+                <button class="btn-primary" id="btn-login-nav" onclick="location.hash='#auth'">무료로 시작하기</button>
+                <!-- 로그인 시 -->
+                <div id="user-profile-nav" style="display:none; align-items:center; gap:12px;">
+                    <span class="text-sm font-bold" id="nav-user-name"></span>
+                    <button class="btn-secondary text-sm" onclick="handleLogout()" style="padding: 0.4rem 0.8rem;">로그아웃</button>
+                </div>
+            </div>
         </div>
     </nav>
 
     <main id="app-content">
         
-        <!-- 1. 랜딩 페이지 -->
+        <!-- ======================================================= -->
+        <!-- 1. 소개 (Introduction) 랜딩 페이지                        -->
+        <!-- ======================================================= -->
         <section id="home" class="page-section active">
+            <!-- 히어로 섹션 -->
             <div class="hero wrapper">
                 <div class="hero-content">
                     <div class="badge fade-in-up">🚀 운영 리소스 70% 절감 솔루션</div>
@@ -47,13 +62,163 @@
                 </div>
             </div>
 
-            <div id="features" class="features-section wrapper">
-                <h2 class="section-title fade-in-up">성공적인 해커톤을 위한 4대 특화 기능</h2>
-                <div class="features-grid">
+            <!-- 실시간 카운터 통계 -->
+            <div class="stats-section wrapper fade-in-up" style="animation-delay: 0.4s;">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="1200">0</span><span class="stat-suffix">+</span>
+                        <span class="stat-label">누적 참가자</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="48">0</span><span class="stat-suffix">개</span>
+                        <span class="stat-label">진행된 대회</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="73">0</span><span class="stat-suffix">시간</span>
+                        <span class="stat-label">평균 절감 시간</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="97">0</span><span class="stat-suffix">%</span>
+                        <span class="stat-label">주최자 재사용률</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="how-it-works wrapper">
+                <h2 class="section-title">단 3단계로 시작하세요</h2>
+                <div class="steps-grid">
+                    <div class="step-card glass hover-lift">
+                        <div class="step-num">01</div>
+                        <div class="icon-wrapper bg-blue"><i data-lucide="layout-dashboard"></i></div>
+                        <h3>대회 생성</h3>
+                        <p>드래그 앤 드롭으로 모집 폼을 만들고 전용 랜딩 페이지를 1분 만에 배포하세요.</p>
+                    </div>
+                    <div class="step-connector"><i data-lucide="chevron-right"></i></div>
+                    <div class="step-card glass hover-lift">
+                        <div class="step-num">02</div>
+                        <div class="icon-wrapper bg-purple"><i data-lucide="users"></i></div>
+                        <h3>참가자 모집 & 팀빌딩</h3>
+                        <p>지원자를 자동 집계하고 스킬 기반 스마트 매칭으로 팀 구성을 지원합니다.</p>
+                    </div>
+                    <div class="step-connector"><i data-lucide="chevron-right"></i></div>
+                    <div class="step-card glass hover-lift">
+                        <div class="step-num">03</div>
+                        <div class="icon-wrapper bg-pink"><i data-lucide="trophy"></i></div>
+                        <h3>심사 & 결과 발표</h3>
+                        <p>실시간 채점과 자동 랭킹으로 결과를 즉시 집계하고 원클릭으로 결과를 통보합니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 고객 사회적 증거 (Testimonials) -->
+            <div class="testimonials-section wrapper">
+                <h2 class="section-title">주최자들이 직접 말하는 HackSync</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card glass hover-lift">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"구글 폼과 엑셀로 3일 걸리던 지원자 집계를 실시간으로 처리하니 행사 전 준비 시간이 70% 줄었습니다."</p>
+                        <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/48?u=t1" alt="김교수" class="avatar">
+                            <div>
+                                <strong>김교수</strong>
+                                <span class="text-gray text-sm">○○대학교 LINC 사업단</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card glass hover-lift">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"심사위원 5명의 채점표를 엑셀로 합산하다 오류가 난 적이 있었는데, HackSync의 실시간 채점은 정말 혁신적입니다."</p>
+                        <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/48?u=t2" alt="이매니저" class="avatar">
+                            <div>
+                                <strong>이매니저</strong>
+                                <span class="text-gray text-sm">□□ 창조경제혁신센터</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card glass hover-lift">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"팀 빌딩 기능 덕분에 참가자 이탈률이 절반으로 줄었습니다. 에브리타임에 글 올리는 시대는 끝났어요."</p>
+                        <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/48?u=t3" alt="박리더" class="avatar">
+                            <div>
+                                <strong>박리더</strong>
+                                <span class="text-gray text-sm">△△ IT DevRel 팀</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 최종 CTA -->
+            <div class="cta-section wrapper">
+                <div class="cta-banner glass">
+                    <h2>지금 바로 대회 운영을<br><span class="gradient-text">혁신</span>해 보세요.</h2>
+                    <p class="text-gray">무료 플랜으로 시작하세요. 신용카드 없이도 가능합니다.</p>
+                    <div class="hero-cta mt-8">
+                        <a href="#dashboard" class="btn-primary large">무료로 시작하기 <i data-lucide="arrow-right"></i></a>
+                        <a href="#features" class="btn-secondary large">기능 둘러보기</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 푸터 -->
+            <footer class="site-footer">
+                <div class="wrapper">
+                    <div class="footer-grid">
+                        <div class="footer-brand">
+                            <div class="logo">HackSync<span class="dot">.</span></div>
+                            <p class="text-gray text-sm mt-3">파편화된 대회 운영을 하나의 코어로 동기화하다.</p>
+                        </div>
+                        <div class="footer-links">
+                            <h4>Product</h4>
+                            <a href="#features">기능</a>
+                            <a href="#dashboard">대시보드</a>
+                            <a href="#team">팀빌딩</a>
+                        </div>
+                        <div class="footer-links">
+                            <h4>Resources</h4>
+                            <a href="#">API 문서</a>
+                            <a href="#">가이드</a>
+                            <a href="#">FAQ</a>
+                        </div>
+                        <div class="footer-links">
+                            <h4>Company</h4>
+                            <a href="#">소개</a>
+                            <a href="#">블로그</a>
+                            <a href="#">문의하기</a>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <span class="text-gray text-sm">© 2025 HackSync. All rights reserved.</span>
+                    </div>
+                </div>
+            </footer>
+        </section>
+
+
+        <!-- ======================================================= -->
+        <!-- 2. 기능 (Features) 안내 페이지                            -->
+        <!-- ======================================================= -->
+        <section id="features" class="page-section">
+            <div class="wrapper pt-20">
+                <!-- 헤더 -->
+                <div class="text-center mb-10">
+                    <div class="badge inline-block mb-3">Platform Features</div>
+                    <h2 class="text-4xl font-bold mb-4">성공적인 해커톤을 위한<br><span class="gradient-text">4대 특화 기능</span></h2>
+                    <p class="text-gray text-lg max-w-2xl mx-auto">HackSync가 제공하는 핵심 기능으로 대회 운영의 모든 단계를 자동화하세요.</p>
+                </div>
+
+                <!-- 기능 카드 그리드 -->
+                <div class="features-grid mb-10">
                     <div class="feature-card glass hover-lift">
                         <div class="icon-wrapper bg-blue"><i data-lucide="layout-dashboard"></i></div>
                         <h3>동적 대회 생성</h3>
-                        <p>코딩 없이 드래그 앤 드롭으로 모집 폼을 만들고, 전용 랜딩 페이지를 1분만에 배포하세요.</p>
+                        <p>코딩 없이 드래그 앤 드롭으로 모집 폼을 만들고, 전용 랜딩 페이지를 1분 만에 배포하세요.</p>
                     </div>
                     <div class="feature-card glass hover-lift">
                         <div class="icon-wrapper bg-purple"><i data-lucide="users"></i></div>
@@ -71,98 +236,601 @@
                         <p>합격/불합격, 서류 제출 마감 공지 등을 타겟 그룹에게 알림톡과 이메일로 원클릭 발송합니다.</p>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- 2. 대시보드 (주최자) -->
-        <section id="dashboard" class="page-section">
-            <div class="dashboard-layout">
-                <aside class="sidebar glass">
-                    <div class="sidebar-header">
-                        <span>Admin Panel</span>
-                    </div>
-                    <ul class="side-menu">
-                        <li class="active"><i data-lucide="pie-chart"></i> 통합 대시보드</li>
-                        <li><i data-lucide="edit"></i> 대회 폼 편집기</li>
-                        <li><i data-lucide="users"></i> 전체 지원자 [428]</li>
-                        <li><i data-lucide="star"></i> 심사 결과 집계</li>
-                        <li><i data-lucide="mail"></i> 결과 통보(CRM)</li>
-                    </ul>
-                </aside>
-                <div class="dashboard-content">
-                    <div class="dash-header flex-between mb-4">
-                        <div>
-                            <h2 class="text-2xl font-bold">2025 글로벌 AI 해커톤</h2>
-                            <p class="text-gray mt-1">접수 진행 중 (D-15)</p>
-                        </div>
-                        <button class="btn-primary flex-center gap-2"><i data-lucide="download"></i> 리포트 엑셀 다운로드</button>
-                    </div>
-                    
-                    <div class="kpi-grid mb-6">
-                        <div class="kpi-card glass">
-                            <span class="kpi-label">총 지원자 현황</span>
-                            <div class="flex-between items-end">
-                                <span class="kpi-value text-gradient">428<small>명</small></span>
-                                <span class="kpi-trend positive"><i data-lucide="trending-up" size="16"></i> 12%</span>
-                            </div>
-                        </div>
-                        <div class="kpi-card glass">
-                            <span class="kpi-label">팀 빌딩 완료 파티</span>
-                            <div class="flex-between items-end">
-                                <span class="kpi-value">84<small>%</small></span>
-                                <span class="text-gray text-sm">62팀</span>
-                            </div>
-                            <div class="progress-bar mt-3"><div class="fill bg-gradient" style="width: 84%"></div></div>
-                        </div>
-                        <div class="kpi-card glass">
-                            <span class="kpi-label">최종 산출물 제출율</span>
-                            <div class="flex-between items-end">
-                                <span class="kpi-value">62<small>%</small></span>
-                                <span class="text-gray text-sm">진행중</span>
-                            </div>
-                            <div class="progress-bar mt-3"><div class="fill bg-purple" style="width: 62%"></div></div>
-                        </div>
-                    </div>
-
-                    <div class="dashboard-grid">
-                        <div class="chart-container glass">
-                            <h3 class="mb-4">직무별 지원자 분포</h3>
-                            <div class="chart-wrapper">
-                                <canvas id="roleChart"></canvas>
-                            </div>
-                        </div>
-                        <div class="recent-activity glass">
-                            <h3 class="mb-4">최근 액티비티</h3>
-                            <ul class="activity-list">
-                                <li>
-                                    <div class="dot bg-gradient"></div>
-                                    <div class="activity-info">
-                                        <p class="summary"><strong>김토스</strong>님이 <strong>Frontend 개발자</strong>로 지원했습니다.</p>
-                                        <span class="time">방금 전</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="dot bg-purple"></div>
-                                    <div class="activity-info">
-                                        <p class="summary"><strong>AI 헬스케어 팀</strong>이 팀 빌딩을 완료했습니다.</p>
-                                        <span class="time">15분 전</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="dot bg-pink"></div>
-                                    <div class="activity-info">
-                                        <p class="summary"><strong>박카카오</strong>님이 Github 포트폴리오를 업데이트했습니다.</p>
-                                        <span class="time">1시간 전</span>
-                                    </div>
-                                </li>
+                <!-- 기능 딥 다이브 섹션 1: 동적 대회 생성 -->
+                <div class="feature-deep glass" id="feature-detail-1">
+                    <div class="feature-deep-content">
+                        <div class="feature-deep-text">
+                            <div class="badge inline-block mb-3">F-01</div>
+                            <h3>동적 대회 생성 & 원클릭 랜딩</h3>
+                            <p class="text-gray mt-3 mb-6">대회명, 일정, 트랙만 입력하면 자동으로 모집 랜딩 페이지가 생성됩니다. 코딩 없이 설정 즉시 배포합니다.</p>
+                            <ul class="feature-checklist">
+                                <li><i data-lucide="check-circle" size="18"></i> 드래그 앤 드롭 폼 빌더</li>
+                                <li><i data-lucide="check-circle" size="18"></i> 자동 랜딩 페이지 생성 & 배포</li>
+                                <li><i data-lucide="check-circle" size="18"></i> 다중 트랙 & 마감일 설정</li>
+                                <li><i data-lucide="check-circle" size="18"></i> 모바일 반응형 폼</li>
                             </ul>
+                        </div>
+                        <div class="feature-deep-visual glass">
+                            <div class="mock-form-builder">
+                                <div class="mock-toolbar">
+                                    <span class="mock-dot red"></span>
+                                    <span class="mock-dot yellow"></span>
+                                    <span class="mock-dot green"></span>
+                                    <span class="mock-title">대회 생성 마법사</span>
+                                </div>
+                                <div class="mock-form-body">
+                                    <div class="mock-field"><span class="mock-label">대회명</span><span class="mock-input">2025 글로벌 AI 해커톤</span></div>
+                                    <div class="mock-field"><span class="mock-label">시작일</span><span class="mock-input">2025-06-01</span></div>
+                                    <div class="mock-field"><span class="mock-label">트랙</span>
+                                        <div class="mock-tags">
+                                            <span class="skill-tag">Frontend</span>
+                                            <span class="skill-tag">Backend</span>
+                                            <span class="skill-tag">AI/Data</span>
+                                            <span class="skill-tag">Design</span>
+                                        </div>
+                                    </div>
+                                    <div class="mock-btn-row"><span class="btn-primary">랜딩 페이지 배포 →</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 기능 딥 다이브 섹션 2: 스마트 팀 빌딩 -->
+                <div class="feature-deep glass" id="feature-detail-2">
+                    <div class="feature-deep-content reverse">
+                        <div class="feature-deep-text">
+                            <div class="badge inline-block mb-3">F-02</div>
+                            <h3>스마트 팀 빌딩 & 매칭 엔진</h3>
+                            <p class="text-gray mt-3 mb-6">참가자가 등록한 스킬셋, GitHub 프로필, 지역 정보를 분석하여 최적의 팀원을 추천합니다.</p>
+                            <ul class="feature-checklist">
+                                <li><i data-lucide="check-circle" size="18"></i> GitHub/Notion 포트폴리오 연동</li>
+                                <li><i data-lucide="check-circle" size="18"></i> 스킬 기반 매칭 알고리즘</li>
+                                <li><i data-lucide="check-circle" size="18"></i> 팀원 초대 & 지원 시스템</li>
+                                <li><i data-lucide="check-circle" size="18"></i> 매칭도(%) 실시간 표시</li>
+                            </ul>
+                        </div>
+                        <div class="feature-deep-visual glass">
+                            <div class="mock-matching">
+                                <div class="mock-match-card">
+                                    <img src="https://i.pravatar.cc/40?u=m1" alt="" class="avatar" style="width:40px;height:40px;">
+                                    <div>
+                                        <strong>이현우</strong>
+                                        <span class="text-gray text-sm"> · Frontend</span>
+                                    </div>
+                                    <span class="match-pct">92%</span>
+                                </div>
+                                <div class="mock-match-card">
+                                    <img src="https://i.pravatar.cc/40?u=m2" alt="" class="avatar" style="width:40px;height:40px;">
+                                    <div>
+                                        <strong>김데이터</strong>
+                                        <span class="text-gray text-sm"> · AI/Data</span>
+                                    </div>
+                                    <span class="match-pct">87%</span>
+                                </div>
+                                <div class="mock-match-card">
+                                    <img src="https://i.pravatar.cc/40?u=m3" alt="" class="avatar" style="width:40px;height:40px;">
+                                    <div>
+                                        <strong>최디자인</strong>
+                                        <span class="text-gray text-sm"> · Design</span>
+                                    </div>
+                                    <span class="match-pct">78%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 기능 딥 다이브 섹션 3: 실시간 채점 -->
+                <div class="feature-deep glass" id="feature-detail-3">
+                    <div class="feature-deep-content">
+                        <div class="feature-deep-text">
+                            <div class="badge inline-block mb-3">F-03</div>
+                            <h3>실시간 채점 & 자동 랭킹</h3>
+                            <p class="text-gray mt-3 mb-6">심사위원이 태블릿으로 채점하면 가중치가 적용된 총점이 즉시 합산되어 대시보드에 반영됩니다.</p>
+                            <ul class="feature-checklist">
+                                <li><i data-lucide="check-circle" size="18"></i> 다중 심사위원 동시 채점</li>
+                                <li><i data-lucide="check-circle" size="18"></i> 가중치 기반 자동 총점 계산</li>
+                                <li><i data-lucide="check-circle" size="18"></i> 실시간 랭킹 보드</li>
+                                <li><i data-lucide="check-circle" size="18"></i> 엑셀 수동 합산 오류 0%</li>
+                            </ul>
+                        </div>
+                        <div class="feature-deep-visual glass">
+                            <div class="mock-ranking">
+                                <div class="mock-rank-header"><span>순위</span><span>팀명</span><span>총점</span></div>
+                                <div class="mock-rank-row gold"><span class="rank-badge">🥇</span><span>AI 헬스케어 팀</span><span class="font-bold">92.5</span></div>
+                                <div class="mock-rank-row silver"><span class="rank-badge">🥈</span><span>스마트 시티 팀</span><span class="font-bold">89.2</span></div>
+                                <div class="mock-rank-row bronze"><span class="rank-badge">🥉</span><span>EduTech 팀</span><span class="font-bold">86.8</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Before & After 비교 테이블 -->
+                <div class="comparison-section">
+                    <h2 class="section-title">기존 방식 vs HackSync</h2>
+                    <div class="comparison-table glass">
+                        <div class="comp-header">
+                            <div class="comp-col">항목</div>
+                            <div class="comp-col comp-before">기존 (수작업)</div>
+                            <div class="comp-col comp-after">HackSync</div>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-col">지원자 접수</div>
+                            <div class="comp-col comp-before"><i data-lucide="x-circle" size="16"></i> 구글 폼 + 엑셀 취합</div>
+                            <div class="comp-col comp-after"><i data-lucide="check-circle" size="16"></i> 원클릭 자동 집계</div>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-col">팀 빌딩</div>
+                            <div class="comp-col comp-before"><i data-lucide="x-circle" size="16"></i> 에브리타임 / 오픈카톡</div>
+                            <div class="comp-col comp-after"><i data-lucide="check-circle" size="16"></i> 스킬 기반 자동 매칭</div>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-col">심사 채점</div>
+                            <div class="comp-col comp-before"><i data-lucide="x-circle" size="16"></i> 종이 채점표 + 수동 합산</div>
+                            <div class="comp-col comp-after"><i data-lucide="check-circle" size="16"></i> 실시간 자동 합산</div>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-col">결과 통보</div>
+                            <div class="comp-col comp-before"><i data-lucide="x-circle" size="16"></i> 개별 이메일 수작업</div>
+                            <div class="comp-col comp-after"><i data-lucide="check-circle" size="16"></i> 원클릭 CRM 발송</div>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-col">소요 시간</div>
+                            <div class="comp-col comp-before"><i data-lucide="x-circle" size="16"></i> ~73시간</div>
+                            <div class="comp-col comp-after"><i data-lucide="check-circle" size="16"></i> ~8시간 (89% 절감)</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 3. 팀빌딩 (참가자) -->
+
+        <!-- ======================================================= -->
+        <!-- 3. 대시보드 (주최자) 관리 화면                              -->
+        <!-- ======================================================= -->
+        <section id="dashboard" class="page-section">
+            <div class="dashboard-layout">
+                <!-- 사이드바 -->
+                <aside class="sidebar glass">
+                    <div class="sidebar-header">
+                        <span>Admin Panel</span>
+                    </div>
+                    <ul class="side-menu">
+                        <li class="active" data-view="dash-overview"><i data-lucide="pie-chart"></i> 통합 대시보드</li>
+                        <li data-view="dash-applicants"><i data-lucide="users"></i> 전체 지원자 <span class="side-badge">428</span></li>
+                        <li data-view="dash-scoring"><i data-lucide="star"></i> 심사 결과 집계</li>
+                        <li data-view="dash-crm"><i data-lucide="mail"></i> 결과 통보 (CRM)</li>
+                    </ul>
+                    <div class="sidebar-footer">
+                        <div class="sidebar-user">
+                            <img src="https://i.pravatar.cc/36?u=admin" alt="관리자" class="avatar" style="width:36px;height:36px;">
+                            <div>
+                                <strong class="text-sm">관리자</strong>
+                                <span class="text-gray text-sm">admin@hacksync.io</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- 대시보드 콘텐츠 영역 -->
+                <div class="dashboard-content">
+                    
+                    <!-- === 서브뷰 1: 통합 대시보드 (Overview) === -->
+                    <div class="dash-subview active" id="dash-overview">
+                        <div class="dash-header flex-between mb-4">
+                            <div>
+                                <h2 class="text-2xl font-bold">2025 글로벌 AI 해커톤</h2>
+                                <p class="text-gray mt-1">접수 진행 중 (D-15) · <span class="status-live">● LIVE</span></p>
+                            </div>
+                            <button class="btn-primary flex-center gap-2"><i data-lucide="download"></i> 리포트 다운로드</button>
+                        </div>
+                        
+                        <!-- KPI 카드 -->
+                        <div class="kpi-grid mb-6">
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">총 지원자 현황</span>
+                                <div class="flex-between items-end">
+                                    <span class="kpi-value text-gradient">428<small>명</small></span>
+                                    <span class="kpi-trend positive"><i data-lucide="trending-up" size="16"></i> 12%</span>
+                                </div>
+                            </div>
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">팀 빌딩 완료 비율</span>
+                                <div class="flex-between items-end">
+                                    <span class="kpi-value">84<small>%</small></span>
+                                    <span class="text-gray text-sm">62팀</span>
+                                </div>
+                                <div class="progress-bar mt-3"><div class="fill bg-gradient" style="width: 84%"></div></div>
+                            </div>
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">최종 산출물 제출율</span>
+                                <div class="flex-between items-end">
+                                    <span class="kpi-value">62<small>%</small></span>
+                                    <span class="text-gray text-sm">진행중</span>
+                                </div>
+                                <div class="progress-bar mt-3"><div class="fill bg-purple" style="width: 62%"></div></div>
+                            </div>
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">채점 진행률</span>
+                                <div class="flex-between items-end">
+                                    <span class="kpi-value">38<small>%</small></span>
+                                    <span class="text-gray text-sm">23/62팀</span>
+                                </div>
+                                <div class="progress-bar mt-3"><div class="fill bg-pink" style="width: 38%"></div></div>
+                            </div>
+                        </div>
+
+                        <!-- 차트 영역 -->
+                        <div class="dashboard-grid mb-6">
+                            <div class="chart-container glass">
+                                <h3 class="mb-4">직무별 지원자 분포</h3>
+                                <div class="chart-wrapper">
+                                    <canvas id="roleChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="chart-container glass">
+                                <h3 class="mb-4">포지션 비율</h3>
+                                <div class="chart-wrapper">
+                                    <canvas id="doughnutChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 일별 지원자 추이 & 최근 활동 -->
+                        <div class="dashboard-grid">
+                            <div class="chart-container glass">
+                                <h3 class="mb-4">일별 지원자 추이 (최근 7일)</h3>
+                                <div class="chart-wrapper">
+                                    <canvas id="lineChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="recent-activity glass">
+                                <h3 class="mb-4">최근 액티비티</h3>
+                                <ul class="activity-list" id="activity-list">
+                                    <!-- JS 렌더링 -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- === 서브뷰 2: 전체 지원자 === -->
+                    <div class="dash-subview" id="dash-applicants">
+                        <div class="dash-header flex-between mb-4">
+                            <h2 class="text-2xl font-bold">전체 지원자 관리</h2>
+                            <div class="flex-center gap-2">
+                                <div class="search-box">
+                                    <i data-lucide="search" size="16"></i>
+                                    <input type="text" id="applicant-search" placeholder="이름, 역할 검색..." class="search-input">
+                                </div>
+                                <button class="btn-primary flex-center gap-2"><i data-lucide="download" size="16"></i> CSV</button>
+                            </div>
+                        </div>
+
+                        <div class="applicant-status-bar mb-4">
+                            <button class="filter-btn active" data-afilter="all">전체 <span class="side-badge">428</span></button>
+                            <button class="filter-btn" data-afilter="PENDING">심사 대기 <span class="side-badge">186</span></button>
+                            <button class="filter-btn" data-afilter="ACCEPTED">합격 <span class="side-badge">142</span></button>
+                            <button class="filter-btn" data-afilter="REJECTED">불합격 <span class="side-badge">100</span></button>
+                        </div>
+
+                        <div class="table-container glass">
+                            <table class="data-table" id="applicant-table">
+                                <thead>
+                                    <tr>
+                                        <th>이름</th>
+                                        <th>이메일</th>
+                                        <th>직무</th>
+                                        <th>팀</th>
+                                        <th>지원일</th>
+                                        <th>상태</th>
+                                        <th>액션</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="applicant-tbody">
+                                    <!-- JS 렌더링 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- === 서브뷰 3: 심사 결과 집계 === -->
+                    <div class="dash-subview" id="dash-scoring">
+                        <div class="dash-header flex-between mb-4">
+                            <h2 class="text-2xl font-bold">심사 결과 집계</h2>
+                            <button class="btn-primary flex-center gap-2"><i data-lucide="refresh-cw" size="16"></i> 랭킹 갱신</button>
+                        </div>
+
+                        <div class="kpi-grid mb-6" style="grid-template-columns: repeat(3, 1fr);">
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">총 평가 대상 팀</span>
+                                <span class="kpi-value">62<small>팀</small></span>
+                            </div>
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">채점 완료</span>
+                                <span class="kpi-value text-gradient">23<small>팀</small></span>
+                            </div>
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">심사위원 수</span>
+                                <span class="kpi-value">5<small>명</small></span>
+                            </div>
+                        </div>
+
+                        <div class="table-container glass">
+                            <h3 class="mb-4">실시간 랭킹 보드</h3>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>순위</th>
+                                        <th>팀명</th>
+                                        <th>트랙</th>
+                                        <th>창의성</th>
+                                        <th>완성도</th>
+                                        <th>발표력</th>
+                                        <th>총점</th>
+                                        <th>채점 심사위원</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ranking-tbody">
+                                    <!-- JS 렌더링 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- === 서브뷰 4: 결과 통보 (CRM) === -->
+                    <div class="dash-subview" id="dash-crm">
+                        <div class="dash-header flex-between mb-4">
+                            <h2 class="text-2xl font-bold">결과 통보 (CRM)</h2>
+                            <span class="badge">최근 발송: 2025-05-20</span>
+                        </div>
+
+                        <div class="kpi-grid mb-6" style="grid-template-columns: repeat(4, 1fr);">
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">총 발송</span>
+                                <span class="kpi-value">312<small>건</small></span>
+                            </div>
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">전달 완료</span>
+                                <span class="kpi-value text-gradient">298<small>건</small></span>
+                            </div>
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">열람률</span>
+                                <span class="kpi-value">72<small>%</small></span>
+                            </div>
+                            <div class="kpi-card glass">
+                                <span class="kpi-label">반송</span>
+                                <span class="kpi-value" style="color: var(--accent);">14<small>건</small></span>
+                            </div>
+                        </div>
+
+                        <div class="crm-layout">
+                            <div class="crm-compose glass">
+                                <h3 class="mb-4"><i data-lucide="edit-3" size="18"></i> 새 메시지 작성</h3>
+                                <div class="form-group">
+                                    <label class="form-label">수신 대상 세그먼트</label>
+                                    <select class="form-select">
+                                        <option>전체 참가자 (428명)</option>
+                                        <option>합격자 (142명)</option>
+                                        <option>불합격자 (100명)</option>
+                                        <option>팀 미배정 참가자 (68명)</option>
+                                        <option>산출물 미제출 팀 (24팀)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">발송 채널</label>
+                                    <div class="channel-toggle">
+                                        <button class="channel-btn active"><i data-lucide="mail" size="14"></i> 이메일</button>
+                                        <button class="channel-btn"><i data-lucide="message-square" size="14"></i> 알림톡</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">제목</label>
+                                    <input type="text" class="form-input" value="[2025 글로벌 AI 해커톤] 서류 심사 결과 안내" placeholder="메시지 제목">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">내용</label>
+                                    <textarea class="form-textarea" rows="6" placeholder="메시지 본문을 입력하세요...">안녕하세요, {name}님.
+
+2025 글로벌 AI 해커톤에 지원해 주셔서 감사합니다.
+심사 결과, 귀하는 {result} 되었습니다.
+
+자세한 사항은 HackSync 대시보드에서 확인해 주세요.
+
+감사합니다.
+HackSync 운영팀 드림</textarea>
+                                </div>
+                                <div class="flex-between">
+                                    <button class="btn-secondary flex-center gap-2"><i data-lucide="clock" size="14"></i> 예약 발송</button>
+                                    <button class="btn-primary flex-center gap-2" onclick="showToast('312명에게 메시지가 발송되었습니다.', 'success')"><i data-lucide="send" size="14"></i> 즉시 발송</button>
+                                </div>
+                            </div>
+
+                            <div class="crm-history glass">
+                                <h3 class="mb-4">발송 이력</h3>
+                                <ul class="crm-history-list">
+                                    <li>
+                                        <div class="crm-history-item">
+                                            <div class="crm-history-icon bg-green"><i data-lucide="check" size="14"></i></div>
+                                            <div>
+                                                <p class="text-sm"><strong>서류 합격 안내</strong></p>
+                                                <span class="text-gray text-sm">이메일 · 142명 · 05/20 14:30</span>
+                                            </div>
+                                            <span class="crm-stat-badge success">98% 전달</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="crm-history-item">
+                                            <div class="crm-history-icon bg-pink"><i data-lucide="x" size="14"></i></div>
+                                            <div>
+                                                <p class="text-sm"><strong>서류 불합격 안내</strong></p>
+                                                <span class="text-gray text-sm">이메일 · 100명 · 05/20 14:30</span>
+                                            </div>
+                                            <span class="crm-stat-badge success">96% 전달</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="crm-history-item">
+                                            <div class="crm-history-icon bg-blue"><i data-lucide="bell" size="14"></i></div>
+                                            <div>
+                                                <p class="text-sm"><strong>산출물 제출 마감 D-3</strong></p>
+                                                <span class="text-gray text-sm">알림톡 · 248명 · 05/18 09:00</span>
+                                            </div>
+                                            <span class="crm-stat-badge success">99% 전달</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="crm-history-item">
+                                            <div class="crm-history-icon bg-purple"><i data-lucide="users" size="14"></i></div>
+                                            <div>
+                                                <p class="text-sm"><strong>팀 빌딩 안내</strong></p>
+                                                <span class="text-gray text-sm">이메일 · 428명 · 05/10 10:00</span>
+                                            </div>
+                                            <span class="crm-stat-badge success">95% 전달</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================= -->
+        <!-- 3.5. 대시보드 (심사위원) 화면                             -->
+        <!-- ======================================================= -->
+        <section id="judge" class="page-section">
+            <div class="dashboard-layout">
+                <!-- 사이드바 -->
+                <aside class="sidebar glass">
+                    <div class="sidebar-header">
+                        <span>Judge Panel</span>
+                    </div>
+                    <ul class="side-menu">
+                        <li class="active" data-view="judge-overview"><i data-lucide="clipboard-list"></i> 배정된 평가 대상</li>
+                        <li data-view="judge-completed"><i data-lucide="check-square"></i> 채점 완료 내역</li>
+                    </ul>
+                    <div class="sidebar-footer">
+                        <div class="sidebar-user">
+                            <img src="https://i.pravatar.cc/36?u=judge" alt="심사위원" class="avatar" style="width:36px;height:36px;">
+                            <div>
+                                <strong class="text-sm">심사위원 A</strong>
+                                <span class="text-gray text-sm">judge@hacksync.io</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- 대시보드 콘텐츠 영역 -->
+                <div class="dashboard-content">
+                    
+                    <!-- === 서브뷰 1: 배정된 평가 대상 === -->
+                    <div class="dash-subview active" id="judge-overview">
+                        <div class="dash-header flex-between mb-4">
+                            <div>
+                                <h2 class="text-2xl font-bold">평가 대상 팀</h2>
+                                <p class="text-gray mt-1">총 12개 팀 배정 · 미완료 5팀</p>
+                            </div>
+                        </div>
+                        
+                        <div class="team-grid" id="judge-pending-grid">
+                            <!-- JS 렌더링 -->
+                        </div>
+                    </div>
+
+                    <!-- === 서브뷰 2: 채점 완료 내역 === -->
+                    <div class="dash-subview" id="judge-completed">
+                        <div class="dash-header flex-between mb-4">
+                            <h2 class="text-2xl font-bold">채점 완료 내역</h2>
+                        </div>
+                        
+                        <div class="table-container glass">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>팀명</th>
+                                        <th>트랙</th>
+                                        <th>창의성</th>
+                                        <th>완성도</th>
+                                        <th>발표력</th>
+                                        <th>총점</th>
+                                        <th>액션</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="judge-completed-tbody">
+                                    <!-- JS 렌더링 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 채점 모달 -->
+            <div class="modal-overlay" id="score-team-modal">
+                <div class="modal-content glass">
+                    <div class="modal-header">
+                        <h3>팀 채점하기: <span id="score-team-name" class="gradient-text">AI 헬스케어 팀</span></h3>
+                        <button class="modal-close" onclick="document.getElementById('score-team-modal').classList.remove('show')"><i data-lucide="x" size="20"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="judge-project-info mb-6 glass" style="padding: 1rem; border-radius: 12px;">
+                            <h4 class="mb-2">프로젝트 소개</h4>
+                            <p class="text-sm text-gray mb-3" id="score-team-desc">의료 데이터를 활용한 AI 건강 관리 서비스입니다. 사용자의 생체 데이터를 분석하여 맞춤형 건강 리포트를 제공합니다.</p>
+                            <div class="flex-wrap gap-2" style="display:flex;">
+                                <a href="#" class="btn-secondary text-sm" style="padding: 0.4rem 0.8rem;"><i data-lucide="file-text" size="14" style="margin-right: 4px;"></i> 발표자료 (PDF)</a>
+                                <a href="#" class="btn-secondary text-sm" style="padding: 0.4rem 0.8rem;"><i data-lucide="github" size="14" style="margin-right: 4px;"></i> GitHub</a>
+                                <a href="#" class="btn-secondary text-sm" style="padding: 0.4rem 0.8rem;"><i data-lucide="play-circle" size="14" style="margin-right: 4px;"></i> 시연 영상</a>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label flex-between">
+                                <span>창의성 (35%)</span>
+                                <span class="score-display" id="score-val-1">80점</span>
+                            </label>
+                            <input type="range" class="score-slider" min="0" max="100" value="80" oninput="document.getElementById('score-val-1').innerText = this.value + '점'; updateJudgeTotal();" id="score-input-1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label flex-between">
+                                <span>완성도 (40%)</span>
+                                <span class="score-display" id="score-val-2">80점</span>
+                            </label>
+                            <input type="range" class="score-slider" min="0" max="100" value="80" oninput="document.getElementById('score-val-2').innerText = this.value + '점'; updateJudgeTotal();" id="score-input-2">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label flex-between">
+                                <span>발표력 (25%)</span>
+                                <span class="score-display" id="score-val-3">80점</span>
+                            </label>
+                            <input type="range" class="score-slider" min="0" max="100" value="80" oninput="document.getElementById('score-val-3').innerText = this.value + '점'; updateJudgeTotal();" id="score-input-3">
+                        </div>
+
+                        <div class="judge-total-box mt-4 flex-between glass" style="padding: 1rem; border-radius: 12px; background: rgba(99, 102, 241, 0.1);">
+                            <span class="font-bold">가중치 적용 총점</span>
+                            <span class="text-2xl font-bold text-gradient" id="judge-total-score">80.0</span>
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <label class="form-label">심사평 (선택)</label>
+                            <textarea class="form-textarea" rows="3" placeholder="팀에 대한 피드백을 남겨주세요..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-secondary" onclick="document.getElementById('score-team-modal').classList.remove('show')">취소</button>
+                        <button class="btn-primary" onclick="submitJudgeScore()">채점 완료</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ======================================================= -->
+        <!-- 4. 팀빌딩 (참가자) 인터랙티브 화면                          -->
+        <!-- ======================================================= -->
         <section id="team" class="page-section">
             <div class="team-layout wrapper pt-20">
                 <div class="team-header mb-10 text-center">
@@ -170,20 +838,155 @@
                     <h2 class="text-4xl font-bold mb-4">함께할 크루 찾기</h2>
                     <p class="text-gray text-lg max-w-2xl mx-auto">더 이상 에브리타임, 오픈카톡에서 헤매지 마세요. 검증된 스킬셋과 Github/Notion 포트폴리오를 통해 최고의 팀원을 영입하세요.</p>
                     
-                    <div class="filter-bar mt-8 flex-center flex-wrap gap-3">
-                        <button class="filter-btn active" data-filter="all">전체보기</button>
-                        <button class="filter-btn" data-filter="Frontend">Frontend</button>
-                        <button class="filter-btn" data-filter="Backend">Backend</button>
-                        <button class="filter-btn" data-filter="AI">AI/Data</button>
-                        <button class="filter-btn" data-filter="Design">Design</button>
+                    <!-- 검색 & 필터 바 -->
+                    <div class="team-controls mt-8">
+                        <div class="search-box search-box-lg">
+                            <i data-lucide="search" size="18"></i>
+                            <input type="text" id="team-search" placeholder="이름, 스킬, 역할로 검색..." class="search-input">
+                        </div>
+                        <div class="filter-bar flex-center flex-wrap gap-3 mt-3">
+                            <button class="filter-btn active" data-filter="all">전체보기</button>
+                            <button class="filter-btn" data-filter="Frontend">Frontend</button>
+                            <button class="filter-btn" data-filter="Backend">Backend</button>
+                            <button class="filter-btn" data-filter="AI">AI/Data</button>
+                            <button class="filter-btn" data-filter="Design">Design</button>
+                            <button class="filter-btn" data-filter="PM">PM</button>
+                        </div>
                     </div>
                 </div>
+
+                <!-- 내 팀 현황 배너 -->
+                <div class="my-team-banner glass mb-6" id="my-team-banner">
+                    <div class="my-team-info">
+                        <h3><i data-lucide="users" size="20"></i> 내 팀: <span class="gradient-text">AI 헬스케어 팀</span></h3>
+                        <p class="text-gray text-sm mt-1">트랙: AI/Data · 멤버 3/4 · 1자리 남음</p>
+                    </div>
+                    <div class="my-team-members">
+                        <img src="https://i.pravatar.cc/32?u=me" alt="" class="avatar-stack-item" title="나 (Team Leader)">
+                        <img src="https://i.pravatar.cc/32?u=m4" alt="" class="avatar-stack-item" title="박지성">
+                        <img src="https://i.pravatar.cc/32?u=m5" alt="" class="avatar-stack-item" title="김데이터">
+                        <div class="avatar-stack-placeholder">+1</div>
+                    </div>
+                    <button class="btn-secondary flex-center gap-2" onclick="document.getElementById('create-team-modal').classList.add('show')"><i data-lucide="settings" size="14"></i> 팀 관리</button>
+                </div>
                 
+                <!-- 참가자 그리드 -->
                 <div class="team-grid" id="participant-grid">
-                    <!-- Javascript DOM Injection -->
+                    <!-- JavaScript DOM Injection -->
+                </div>
+            </div>
+
+            <!-- 팀 생성/관리 모달 -->
+            <div class="modal-overlay" id="create-team-modal">
+                <div class="modal-content glass">
+                    <div class="modal-header">
+                        <h3>팀 생성 & 관리</h3>
+                        <button class="modal-close" onclick="document.getElementById('create-team-modal').classList.remove('show')"><i data-lucide="x" size="20"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="form-label">팀 이름</label>
+                            <input type="text" class="form-input" value="AI 헬스케어 팀" placeholder="팀 이름 입력">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">트랙</label>
+                            <select class="form-select">
+                                <option>AI/Data</option>
+                                <option>Frontend</option>
+                                <option>Backend</option>
+                                <option>Design</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">모집 인원</label>
+                            <select class="form-select">
+                                <option>3명</option>
+                                <option selected>4명</option>
+                                <option>5명</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">팀 소개</label>
+                            <textarea class="form-textarea" rows="3" placeholder="팀이 해결하고자 하는 문제와 목표를 작성해 주세요.">의료 데이터를 활용한 AI 건강 관리 서비스를 개발합니다. PyTorch + FastAPI 기반.</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">현재 멤버</label>
+                            <div class="modal-member-list">
+                                <div class="modal-member"><img src="https://i.pravatar.cc/32?u=me" class="avatar" style="width:32px;height:32px;"><span>나 (Leader)</span><span class="badge" style="font-size:0.7rem;">리더</span></div>
+                                <div class="modal-member"><img src="https://i.pravatar.cc/32?u=m4" class="avatar" style="width:32px;height:32px;"><span>박지성</span><span class="text-gray text-sm">Backend</span></div>
+                                <div class="modal-member"><img src="https://i.pravatar.cc/32?u=m5" class="avatar" style="width:32px;height:32px;"><span>김데이터</span><span class="text-gray text-sm">AI/Data</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-secondary" onclick="document.getElementById('create-team-modal').classList.remove('show')">닫기</button>
+                        <button class="btn-primary" onclick="showToast('팀 정보가 저장되었습니다.', 'success'); document.getElementById('create-team-modal').classList.remove('show')">저장하기</button>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- ======================================================= -->
+        <!-- 5. 인증 (로그인/회원가입) 화면                              -->
+        <!-- ======================================================= -->
+        <section id="auth" class="page-section">
+            <div class="auth-layout flex-center" style="min-height: calc(100vh - 70px);">
+                <div class="auth-container glass fade-in-up" style="width: 100%; max-width: 400px; padding: 2.5rem; border-radius: 20px;">
+                    <div class="text-center mb-6">
+                        <div class="logo mb-2" style="font-size: 2rem;">HackSync<span class="dot">.</span></div>
+                        <p class="text-gray" id="auth-subtitle">계정에 로그인하세요</p>
+                    </div>
+
+                    <!-- 로그인 폼 -->
+                    <form id="login-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label class="form-label">이메일</label>
+                            <input type="email" id="login-email" class="form-input" placeholder="hello@hacksync.io" required>
+                        </div>
+                        <div class="form-group mb-6">
+                            <label class="form-label flex-between">
+                                <span>비밀번호</span>
+                                <a href="#" class="text-sm text-gradient">비밀번호 찾기</a>
+                            </label>
+                            <input type="password" id="login-pw" class="form-input" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-primary w-100" style="width: 100%; padding: 0.8rem;">로그인</button>
+                        <p class="text-center text-sm text-gray mt-4">
+                            계정이 없으신가요? <a href="#" class="text-gradient" onclick="toggleAuthMode(event, 'signup')">회원가입</a>
+                        </p>
+                    </form>
+
+                    <!-- 회원가입 폼 -->
+                    <form id="signup-form" style="display:none;" onsubmit="handleSignup(event)">
+                        <div class="form-group">
+                            <label class="form-label">역할 (Role)</label>
+                            <select id="signup-role" class="form-select" required>
+                                <option value="admin">주최자 (Organizer)</option>
+                                <option value="judge">심사위원 (Judge)</option>
+                                <option value="participant">참가자 (Participant)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">이름</label>
+                            <input type="text" id="signup-name" class="form-input" placeholder="홍길동" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">이메일</label>
+                            <input type="email" id="signup-email" class="form-input" placeholder="hello@hacksync.io" required>
+                        </div>
+                        <div class="form-group mb-6">
+                            <label class="form-label">비밀번호</label>
+                            <input type="password" id="signup-pw" class="form-input" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-primary w-100" style="width: 100%; padding: 0.8rem;">회원가입</button>
+                        <p class="text-center text-sm text-gray mt-4">
+                            이미 계정이 있으신가요? <a href="#" class="text-gradient" onclick="toggleAuthMode(event, 'login')">로그인</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
 
     </main>
 
