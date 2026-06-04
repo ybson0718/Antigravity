@@ -734,7 +734,58 @@ function initNavbarScroll() {
     });
 }
 
+// =============================================================
+// 10b. Hamburger Menu & Mobile Nav
+// =============================================================
+function initMobileNav() {
+    const hamburger = document.getElementById('hamburger-btn');
+    const navLinks = document.getElementById('main-nav-links');
+    if (!hamburger || !navLinks) return;
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('mobile-open');
+        // Toggle body scroll lock
+        document.body.style.overflow = navLinks.classList.contains('mobile-open') ? 'hidden' : '';
+    });
+
+    // Close mobile nav on link click
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-open');
+            document.body.style.overflow = '';
+        });
+    });
+
+    // Close mobile nav on resize to desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-open');
+            document.body.style.overflow = '';
+        }
+    });
+}
+
+// =============================================================
+// 10c. Mobile Sidebar Auto-Close
+// =============================================================
+function initMobileSidebar() {
+    // When a sidebar menu item is clicked on mobile, close the sidebar
+    document.querySelectorAll('.side-menu li[data-view]').forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                const sidebar = item.closest('.sidebar');
+                if (sidebar) sidebar.classList.remove('open');
+            }
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', initNavbarScroll);
+document.addEventListener('DOMContentLoaded', initMobileNav);
+document.addEventListener('DOMContentLoaded', initMobileSidebar);
 
 
 // =============================================================

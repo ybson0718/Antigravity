@@ -39,6 +39,10 @@
                     <span class="text-sm font-bold" id="nav-user-name"></span>
                     <button class="btn-secondary text-sm" onclick="handleLogout()" style="padding: 0.4rem 0.8rem;">로그아웃</button>
                 </div>
+                <!-- 모바일 햄버거 -->
+                <button class="hamburger" id="hamburger-btn" aria-label="메뉴 열기">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
     </nav>
@@ -393,6 +397,9 @@
         <section id="dashboard" class="page-section">
             <div class="dashboard-layout">
                 <!-- 사이드바 -->
+                <button class="mobile-sidebar-toggle" onclick="this.closest('.dashboard-layout').querySelector('.sidebar').classList.toggle('open')">
+                    <i data-lucide="menu" size="18"></i> 메뉴
+                </button>
                 <aside class="sidebar glass">
                     <div class="sidebar-header">
                         <span>Admin Panel</span>
@@ -705,6 +712,9 @@ HackSync 운영팀 드림</textarea>
         <section id="judge" class="page-section">
             <div class="dashboard-layout">
                 <!-- 사이드바 -->
+                <button class="mobile-sidebar-toggle" onclick="this.closest('.dashboard-layout').querySelector('.sidebar').classList.toggle('open')">
+                    <i data-lucide="menu" size="18"></i> 메뉴
+                </button>
                 <aside class="sidebar glass">
                     <div class="sidebar-header">
                         <span>Judge Panel</span>
