@@ -9,7 +9,7 @@
     --warning: #f59e0b;
     --danger: #ef4444;
     --text-main: #f8fafc;
-    --text-muted: #94a3b8;
+    --text-muted: #b0bdd0;
     --border-color: rgba(255, 255, 255, 0.08);
     --glass-bg: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.07);
@@ -20,6 +20,42 @@
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
+}
+
+/* ===================================
+   Skip Link (접근성)
+   =================================== */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 16px;
+    z-index: 10000;
+    padding: 0.8rem 1.4rem;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 0 0 8px 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: top 0.2s ease;
+}
+.skip-link:focus {
+    top: 0;
+}
+
+/* ===================================
+   Screen Reader Only
+   =================================== */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 body {
@@ -585,10 +621,16 @@ button, .btn-primary, .btn-secondary {
 .comparison-table {
     border-radius: 16px;
     overflow: hidden;
+    width: 100%;
+    border-collapse: collapse;
 }
 .comp-header, .comp-row {
     display: grid;
     grid-template-columns: 1.5fr 2fr 2fr;
+}
+.comp-header th,
+.comp-header div {
+    text-align: left;
 }
 .comp-header {
     background: rgba(26, 58, 107, 0.4);
@@ -609,8 +651,8 @@ button, .btn-primary, .btn-secondary {
 }
 .comp-before i { color: var(--danger); }
 .comp-after i { color: var(--success); }
-.comp-before { color: #94a3b8; }
-.comp-after { color: #cbd5e1; }
+.comp-before { color: #9eafc5; }
+.comp-after { color: #d1dbe8; }
 
 /* ===================================
    Section Title
@@ -1895,5 +1937,380 @@ button, .btn-primary, .btn-secondary {
     }
     .nav-links.mobile-open {
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+    }
+}
+
+/* ===================================
+   Pricing Section
+   =================================== */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+}
+.pricing-card {
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+.pricing-card.pricing-popular {
+    border: 2px solid var(--primary);
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.15);
+}
+.pricing-popular-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gradient);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+}
+.pricing-tier {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+.pricing-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+}
+.pricing-period {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+}
+.pricing-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.pricing-features li i {
+    color: var(--primary);
+    flex-shrink: 0;
+}
+.pricing-features li.disabled {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+.pricing-features li.disabled i {
+    color: var(--text-muted);
+}
+
+/* ===================================
+   Notification Bell
+   =================================== */
+.notification-bell {
+    position: relative;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+}
+.notification-bell:hover {
+    background: rgba(255,255,255,0.08);
+}
+.notification-bell > i {
+    color: var(--text-secondary);
+}
+.notif-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 18px;
+    height: 18px;
+    background: var(--accent, #ef4444);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    pointer-events: none;
+}
+.notif-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: -10px;
+    width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 16px;
+    padding: 0;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.25s ease;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+.notif-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.notif-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem 0.5rem;
+}
+.notif-header h4 {
+    margin: 0;
+    font-size: 0.95rem;
+}
+.notif-list {
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+}
+.notif-item {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 3px solid transparent;
+}
+.notif-item:hover {
+    background: rgba(255,255,255,0.04);
+}
+.notif-item.unread {
+    border-left-color: var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+.notif-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.notif-content {
+    flex: 1;
+    min-width: 0;
+}
+.notif-content p {
+    margin: 0;
+    line-height: 1.4;
+}
+.notif-empty {
+    padding: 2rem 1.2rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* ===================================
+   FAQ Accordion
+   =================================== */
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.faq-item {
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.faq-item:hover {
+    background: rgba(255,255,255,0.06);
+}
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+.faq-question i {
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    color: var(--text-muted);
+}
+.faq-item.open .faq-question i {
+    transform: rotate(180deg);
+    color: var(--primary);
+}
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    padding: 0 1.2rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+.faq-item.open .faq-answer {
+    max-height: 200px;
+    padding: 0 1.2rem 1rem;
+}
+
+/* ===================================
+   Date/Time Inputs (Dark Theme)
+   =================================== */
+input[type="date"],
+input[type="time"] {
+    color-scheme: dark;
+}
+
+/* ===================================
+   Pricing Responsive
+   =================================== */
+@media (max-width: 900px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+    .pricing-card.pricing-popular {
+        transform: scale(1);
+    }
+}
+@media (max-width: 768px) {
+    .notif-dropdown {
+        width: 280px;
+        right: -40px;
+    }
+}
+
+/* ===================================
+   Spin Animation (for loading icons)
+   =================================== */
+@keyframes spinAnim {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.spin-icon {
+    animation: spinAnim 0.8s linear infinite;
+    display: inline-block;
+}
+
+/* ===================================
+   Focus Visible (키보드 접근성)
+   =================================== */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse/touch users */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Ensure buttons & links get visible focus */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ===================================
+   Prefers Reduced Motion (접근성)
+   =================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .fade-in-up {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .hover-lift:hover {
+        transform: none;
+    }
+
+    .status-live {
+        animation: none;
+    }
+}
+
+/* ===================================
+   High Contrast Mode (고대비 모드)
+   =================================== */
+@media (prefers-contrast: high) {
+    :root {
+        --text-muted: #c8d5e3;
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .glass {
+        border-width: 2px;
+    }
+
+    .btn-primary {
+        outline: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-secondary {
+        border-width: 2px;
+    }
+
+    .status-badge {
+        border: 1px solid currentColor;
+    }
+
+    .badge {
+        border-width: 2px;
+    }
+
+    .pricing-features li.disabled {
+        opacity: 0.7;
+    }
+
+    .comp-before,
+    .comp-after {
+        color: var(--text-main);
     }
 }
